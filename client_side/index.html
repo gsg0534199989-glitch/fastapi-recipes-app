@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מערכת ניהול מתכונים מלאה (FastAPI)</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>🍳 פרויקט מתכונים: ניהול מלא</h1>
+    </header>
+
+    <main>
+       <nav class="tabs">
+    <button class="tab-button active" onclick="showTab('view')">צפייה וחיפוש</button>
+    <button class="tab-button" onclick="showTab('add')">הוספת מתכון</button>
+    <button class="tab-button" onclick="showTab('update')">עדכון ומחיקה</button>
+    <button class="tab-button" onclick="showTab('gemini-chat')">🤖 שאל את Gemini</button> 
+   </nav>
+
+        <div id="statusMessage" class="message hidden"></div>
+
+        <div id="view" class="tab-content active">
+            <h2>חיפוש מתכונים</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="categoryInput">חפש לפי ID קטגוריה:</label>
+                    <input type="number" id="categoryInput" value="1" min="1">
+                    <button onclick="loadRecipesByCategory()">טען מתכוני קטגוריה</button>
+                </div>
+                
+                <div class="control-group">
+                    <label for="recipeIdInput">חפש לפי ID מתכון ספציפי:</label>
+                    <input type="number" id="recipeIdInput" min="1">
+                    <button onclick="loadSingleRecipe()">טען מתכון בודד</button>
+                </div>
+            </div>
+
+            <div id="recipesDisplay" class="recipes-container">
+                <p>השתמשו בכפתורים למעלה כדי לטעון נתונים.</p>
+            </div>
+        </div>
+
+        <div id="add" class="tab-content">
+            <h2>➕ הוספת מתכון חדש</h2>
+            <form id="addRecipeForm" class="form-card">
+                <div class="form-group">
+                    <label for="addName">שם המתכון:</label>
+                    <input type="text" id="addName" required>
+                </div>
+                <div class="form-group">
+                    <label for="addCategory">ID קטגוריה:</label>
+                    <input type="number" id="addCategory" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="addTime">זמן הכנה (דקות):</label>
+                    <input type="number" id="addTime" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="addDifficulty">רמת קושי:</label>
+                    <select id="addDifficulty" required>
+                        <option value="קל">קל</option>
+                        <option value="בינוני">בינוני</option>
+                        <option value="קשה">קשה</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="addServing">גודל מנה:</label>
+                    <input type="number" id="addServing" value="1" min="1">
+                </div>
+                <button type="submit" class="submit-button">הוסף מתכון</button>
+            </form>
+        </div>
+
+        <div id="update" class="tab-content">
+            <h2>📝 עדכון או מחיקה</h2>
+            <div class="controls">
+                <label for="editIdInput">הכנס ID מתכון לעדכון/מחיקה:</label>
+                <input type="number" id="editIdInput" min="1">
+                <button onclick="loadRecipeForEdit()">טען פרטים לעריכה</button>
+            </div>
+            
+            <form id="updateDeleteForm" class="form-card hidden">
+                <h3>עריכת מתכון ID: <span id="currentEditId"></span></h3>
+                <div class="form-group">
+                    <label for="editName">שם המתכון:</label>
+                    <input type="text" id="editName">
+                </div>
+                <div class="form-group">
+                    <label for="editTime">זמן הכנה (דקות):</label>
+                    <input type="number" id="editTime">
+                </div>
+                <div class="form-group">
+                    <label for="editDifficulty">רמת קושי:</label>
+                    <select id="editDifficulty">
+                        <option value="">(ללא שינוי)</option>
+                        <option value="קל">קל</option>
+                        <option value="בינוני">בינוני</option>
+                        <option value="קשה">קשה</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" onclick="handleUpdate()" class="update-button">עדכן מתכון</button>
+                    <button type="button" onclick="handleDelete()" class="delete-button">מחק מתכון</button>
+                </div>
+            </form>
+            <div id="editStatus" class="message hidden"></div>
+        </div>
+        <div id="gemini-chat" class="tab-content">
+    <h2>🤖 שאל את Gemini על אפייה ובישול</h2>
+
+    <div id="chatHistory" class="chat-history">
+        <div class="chat-bubble bot">
+            שלום! אני Gemini, ואני מוכן לענות על שאלות בנושאי בישול, אפייה ומתכונים. שאל/י אותי משהו!
+        </div>
+    </div>
+
+    <form id="geminiForm" class="chat-input-area">
+        <input type="text" id="geminiQuestion" placeholder="הכנס את שאלתך כאן..." required>
+        <button type="submit" id="sendButton">שלח</button>
+    </form>
+</div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 מערכת מתכונים מבוססת FastAPI</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

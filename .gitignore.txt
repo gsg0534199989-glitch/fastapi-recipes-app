@@ -1,0 +1,20 @@
+# סביבות וירטואליות
+.venv
+venv
+env
+
+# קבצי Python compiled
+__pycache__/
+*.pyc
+
+# קבצי IDE (כמו PyCharm או VS Code)
+.idea/
+.vscode/
+
+# קבצים ספציפיים למערכת הפעלה
+.DS_Store
+Thumbs.db
+
+# קבצי יומן או בסיס נתונים מקומיים
+*.log
+*.sqlite3
